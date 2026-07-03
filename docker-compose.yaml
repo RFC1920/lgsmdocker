@@ -7,6 +7,6 @@ services:
     tty: true
     network_mode: host
     volumes:
-      - /export:/export:ro
+      - /data:/data:ro
       - /home/rustserver:/home/ubuntu
 

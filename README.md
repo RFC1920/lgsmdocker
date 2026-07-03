@@ -28,11 +28,11 @@ services:
     tty: true
     network_mode: host
     volumes:
-      - /export:/export:ro
+      - /data:/data:ro
       - /home/rustserver:/home/ubuntu
 ```
 
-Pretty straightforward.  I have a local directory called /export, which is where my git repos sit for various plugins
+Pretty straightforward.  I have a local directory called /data, which is where my git repos sit for various plugins
 The other dir is simply the home directory for our user (rustserver in the OS, ubuntu in the container).
 
 Dockerfile:
@@ -99,7 +99,9 @@ CMD ["cron", "-f"]
 
 Here, we install various packages including lgsm and cron (for server restart scheduling).  Note, at the top of the Dockerfile, we are selecting ubuntu 24.  This hits the sweet spot currently for available security updates AND 32-bit support.
 
-NOTE: The RUN (crontab... line above includes a stop, update for rust, update for oxide, and start.  Adjust to taste if you are, e.g., NOT using oxide/carbon.
+### NOTES
+1. The RUN (crontab... line above includes a stop, update for rust, update for oxide, and start.  Adjust to taste if you are, e.g., NOT using oxide/carbon.
+2. The libgdiplus library is optional, but needed for some plugins such as CopyPaste.cs.  mono-complete may also be optional.
 
 ## Deploy
 
