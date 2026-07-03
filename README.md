@@ -72,7 +72,6 @@ RUN apt-get update && apt-get install -y \
     libgdiplus \
     mono-complete \
     && rm -rf /var/lib/apt/lists/*
-    #steamcmd \
 
 RUN echo steam steam/license note '' | debconf-set-selections
 
