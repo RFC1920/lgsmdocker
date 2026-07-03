@@ -1,0 +1,12 @@
+services:
+  ubuntu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    stdin_open: true
+    tty: true
+    network_mode: host
+    volumes:
+      - /export:/export:ro
+      - /home/rustserver:/home/ubuntu
+
