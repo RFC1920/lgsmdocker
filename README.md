@@ -123,9 +123,11 @@ Note that now you have the entirety of the rust server and plugins, etc. in the 
 
 To (re)start the rust server, you will have to exec into the container as above.
 
-## Other stuff
+## Other stuff (editorializing and prosletyzing)
 
 My full workflow for plugin development includes Visual Studio on Windows (NOT VS Code) with includes for the RustDedicated_Data/Managed folder files as well as plugins, some of which I manage.  I get to these typically via links (ln -s) into a common share exported via samba.
 
 Since the user, rustserver, is obviously not me, I may still have to separately update the rust server files and oxide.  I can probably move the serverfiles directory to my common share and link it back into rustserver.  Time will tell.  Linking on Linux is pretty flexible as long as you don't violate user home directory security.  I remember looking into links on Windows maybe 25 years ago - never again!
+
+Even now, Whenever I update a plugin directly, Oxide does detect the change.  However, it still does not update the actual code.  This has been a problem for a couple of years now.  I thought it was a problem with AlmaLinux (not Ubuntu, which everyone loves).  But, the problem persists.  Highly inconvenient when doing plugin development.  I contributed some code to at least ensure that linked plugins work.  But it seems that no one cares enough to fix the remaining problem.  It's a pretty dark area between Oxide/Mono/Facepunch.  It's probably the cross-linking, filesystem type, or something like that.  But, modifying oxide to always destroy the object when a change is detected would probably fix it.  For now, I find that I have to /bin/rm Plugin.cs and relink...
 
