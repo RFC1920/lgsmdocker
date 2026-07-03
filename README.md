@@ -36,7 +36,7 @@ Pretty straightforward.  I have a local directory called /export, which is where
 The other dir is simply the home directory for our user (rustserver in the OS, ubuntu in the container).
 
 Dockerfile:
-```docker
+```dockerfile
 FROM ubuntu:24.04
 # Prevent interactive prompts during package installation
 ENV DEBIAN_FRONTEND=noninteractive
