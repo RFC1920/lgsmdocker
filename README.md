@@ -12,7 +12,6 @@ There are existing LGSM docker images that may work fine for you.  In my case, I
 
 What you will find here is a docker compose file to establish a basic Ubuntu 24 OS within docker.  There is also a Dockerfile whose main purpose is to install prerequisites for LGSM.
 
-
 ```yml
 services:
   ubuntu:
@@ -28,6 +27,7 @@ services:
 ```
 
 Pretty straightforward.  I have a local directory called /export, which is where my git repos sit for various plugins
+The other dir is simply the home directory for our user (rustserver in the OS, ubuntu in the container).
 
 ## Deploy
 
@@ -41,3 +41,10 @@ Pretty straightforward.  I have a local directory called /export, which is where
 docker ps # To get the container id/name
 docker exec -it --user ubuntu CONTAINERID /bin/bash
 ```
+
+Now, you should be able to run lgsm as usual, install and setup rust, mods, configs, etc.  See the lgsm project for instructions.
+
+Note that now you have the entirety of the rust server and plugins, etc. in the main OS.  You can safely link to or copy plugins, configs, etc. here.
+
+To (re)start the rust server, you will have to exec into the container as above.
+
