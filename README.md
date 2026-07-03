@@ -104,10 +104,11 @@ NOTE: The RUN (crontab... line above includes a stop, update for rust, update fo
 ## Deploy
 
 1. Setup a local user called rustserver.  Make sure the UID and GID are 1000, which matches the default ubuntu user, ubuntu.
-2. As this user, checkout this repo.
-3. cd into the resulting directory.
-4. Run docker compose up -d
-5. Assuming that worked, open a shell into the container:
+2. Ensure that this user can run docker, typically by adding it to the docker group.
+3. As this user, checkout this repo.
+4. cd into the resulting directory.
+5. Run docker compose up -d
+6. Assuming that worked, open a shell into the container:
 
 ```shell
 docker ps # To get the container id/name
