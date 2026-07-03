@@ -1,7 +1,7 @@
 # LGSMdocker
 ## What this is and isn't:
 
-This repo consists of a docker compose file and Dockerfile for setting up a docker container compatible with the current (July 2026) Rust game server on Linux.  Use if you have compatibility issues with your current OS (RHEL-like 9 or 10 or Ubuntu 26).
+This repo consists of a docker compose file and Dockerfile for setting up a docker container compatible with the current (July 2026) [Rust](https://rust.facepunch.com/) game server on Linux.  Use if you have compatibility issues with your current OS (RHEL-like 9 or 10 or Ubuntu 26).
 
 This is not a full container image ready to go, but should be enough instructions for your docker to build one for you.  This requires some knowledge of Linux and [LGSM](https://linuxgsm.com/).
 
