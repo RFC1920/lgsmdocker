@@ -99,6 +99,8 @@ CMD ["cron", "-f"]
 
 Here, we install various packages including lgsm and cron (for server restart scheduling).  Note, at the top of the Dockerfile, we are selecting ubuntu 24.  This hits the sweet spot currently for available security updates AND 32-bit support.
 
+NOTE: The RUN (crontab... line above includes a stop, update for rust, update for oxide, and start.  Adjust to taste if you are, e.g., NOT using oxide/carbon.
+
 ## Deploy
 
 1. Setup a local user called rustserver.  Make sure the UID and GID are 1000, which matches the default ubuntu user, ubuntu.
