@@ -123,3 +123,9 @@ Note that now you have the entirety of the rust server and plugins, etc. in the 
 
 To (re)start the rust server, you will have to exec into the container as above.
 
+## Other stuff
+
+My full workflow for plugin development includes Visual Studio on Windows (NOT VS Code) with includes for the RustDedicated_Data/Managed folder files as well as plugins, some of which I manage.  I get to these typically via links (ln -s) into a common share exported via samba.
+
+Since the user, rustserver, is obviously not me, I may still have to separately update the rust server files and oxide.  I can probably move the serverfiles directory to my common share and link it back into rustserver.  Time will tell.  Linking on Linux is pretty flexible as long as you don't violate user home directory security.  I remember looking into links on Windows maybe 25 years ago - never again!
+
