@@ -106,6 +106,8 @@ Here, we install various packages including lgsm and cron (for server restart sc
 ## Deploy
 
 1. Setup a local user called rustserver.  Make sure the UID and GID are 1000, which matches the default ubuntu user, ubuntu.
+   NOTE: You can adjust the uid:gid for the ubuntu user to match your real account uid:gid in the Dockerfile.
+
 2. Ensure that this user can run docker, typically by adding it to the docker group.
 3. As this user, checkout this repo.
 4. cd into the resulting directory.
