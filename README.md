@@ -1,7 +1,7 @@
 # LGSMdocker
 ## What this is and isn't:
 
-This repo consists of a docker compose file and Dockerfile for setting up a docker container compatible with the current (July 2026) [Rust](https://rust.facepunch.com/) game server on Linux.  Use if you have compatibility issues with your current OS (RHEL-like 9 or 10 or Ubuntu 26).
+This repo consists of a docker compose file, Dockerfile, and startup script for setting up a docker container compatible with the current (November 2026) [Rust](https://rust.facepunch.com/) game server on Linux.  Use if you have compatibility issues with your current OS (RHEL-like 9 or 10 or Ubuntu 26).
 
 This is not a full container image ready to go, but should be enough instructions for your docker to build one for you.  This requires some knowledge of Linux and [LGSM](https://linuxgsm.com/).
 
@@ -24,11 +24,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
+    command: su -s /bin/sh ubuntu -c "/usr/local/bin/entrypoint.sh && tail -f /dev/null"
+    stdin_open: true # Equivalent to -i (keeps stdin open)
+    tty: true        # Equivalent to -t (allocates a pseudo-TTY)
     network_mode: host
     volumes:
-      - /data:/data:ro
+      - /data:/data
       - /home/rustserver:/home/ubuntu
 ```
 
@@ -72,27 +73,28 @@ RUN apt-get update && apt-get install -y \
     libgdiplus \
     mono-complete \
     && rm -rf /var/lib/apt/lists/*
+    #steamcmd \
 
 RUN echo steam steam/license note '' | debconf-set-selections
-
 RUN echo steam steam/question select "I AGREE" | debconf-set-selections
+RUN apt-get update && apt-get install -y steam steamcmd
 
-RUN apt-get update && apt-get install -y  steam steamcmd
+# 2. Copy the entrypoint script into the container
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
+# 3. Give execution permissions to the script (while still root)
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Run commands as ubuntu user
 USER ubuntu
-
-RUN cd /home/ubuntu && curl -Lo linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh rustserver
-
+# Set the working directory inside the container
+WORKDIR /home/ubuntu
+RUN curl -Lo linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh rustserver
 RUN (crontab -l 2>/dev/null; echo "0 4 * * * /home/ubuntu/rustserver stop;/home/ubuntu/rustserver fu;/home/ubuntu/rustserver mu;/home/ubuntu/rustserver start") | crontab -
 
-# Set the working directory inside the container
-WORKDIR /rust
+RUN /usr/local/bin/entrypoint.sh
 
-# (Optional) Copy local files from your host machine into the container
-# COPY . .
-
-# Run a default command when the container starts
-#CMD ["bash"]
+# Run cron as root when the container starts
 USER root
 CMD ["cron", "-f"]
 ```

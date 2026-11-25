@@ -3,10 +3,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
+    command: su -s /bin/sh ubuntu -c "/usr/local/bin/entrypoint.sh && tail -f /dev/null"
+    stdin_open: true # Equivalent to -i (keeps stdin open)
+    tty: true        # Equivalent to -t (allocates a pseudo-TTY)
     network_mode: host
     volumes:
-      - /data:/data:ro
+      - /data:/data
       - /home/rustserver:/home/ubuntu
 

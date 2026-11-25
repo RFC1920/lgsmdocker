@@ -33,26 +33,27 @@ RUN apt-get update && apt-get install -y \
     libgdiplus \
     mono-complete \
     && rm -rf /var/lib/apt/lists/*
+    #steamcmd \
 
 RUN echo steam steam/license note '' | debconf-set-selections
-
 RUN echo steam steam/question select "I AGREE" | debconf-set-selections
+RUN apt-get update && apt-get install -y steam steamcmd
 
-RUN apt-get update && apt-get install -y  steam steamcmd
+# 2. Copy the entrypoint script into the container
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
+# 3. Give execution permissions to the script (while still root)
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Run commands as ubuntu user
 USER ubuntu
-
-RUN cd /home/ubuntu && curl -Lo linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh rustserver
-
+# Set the working directory inside the container
+WORKDIR /home/ubuntu
+RUN curl -Lo linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh rustserver
 RUN (crontab -l 2>/dev/null; echo "0 4 * * * /home/ubuntu/rustserver stop;/home/ubuntu/rustserver fu;/home/ubuntu/rustserver mu;/home/ubuntu/rustserver start") | crontab -
 
-# Set the working directory inside the container
-WORKDIR /rust
+RUN /usr/local/bin/entrypoint.sh
 
-# (Optional) Copy local files from your host machine into the container
-# COPY . .
-
-# Run a default command when the container starts
-#CMD ["bash"]
+# Run cron as root when the container starts
 USER root
 CMD ["cron", "-f"]
